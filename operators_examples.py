@@ -13,5 +13,5 @@ print(5 >> 3)
 
 # Special operators
 a = 5
-print(a is 5)
+print(a == 5)
 print(a in [1, 2, 5])
