@@ -19,6 +19,22 @@ def most_frequent_word(text):
     print("Most frequent word:", max_word)
     print("Count:", max_count)
 
+def invert_dictionary(data):
+    new_dict = {}
+
+    for name, age in data.items():
+        new_dict[age] = name
+
+    return new_dict
+
 if __name__ == "__main__":
     text = "apple banana apple orange banana apple"
     most_frequent_word(text)
+
+    people = {
+        "Ana": 25,
+        "Ion": 30,
+        "Maria": 28
+    }
+
+    print(invert_dictionary(people))
