@@ -1,0 +1,67 @@
+import csv
+import os
+
+FILE_NAME = "database.csv"
+
+
+def init_db():
+    if not os.path.exists(FILE_NAME):
+        with open(FILE_NAME, "w", newline="") as file:
+            writer = csv.writer(file)
+            writer.writerow(["id", "name", "age"])
+        print("Database created")
+
+
+def add_record(record_id, name, age):
+    with open(FILE_NAME, "a", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow([record_id, name, age])
+
+
+def view_records():
+    with open(FILE_NAME, "r") as file:
+        reader = csv.reader(file)
+        for row in reader:
+            print(row)
+
+
+def search_record(record_id):
+    with open(FILE_NAME, "r") as file:
+        reader = csv.reader(file)
+        for row in reader:
+            if row[0] == str(record_id):
+                print("Record found:", row)
+                return
+    print("Record not found")
+
+
+def delete_record(record_id):
+    rows = []
+
+    with open(FILE_NAME, "r") as file:
+        reader = csv.reader(file)
+        for row in reader:
+            if row[0] != str(record_id):
+                rows.append(row)
+
+    with open(FILE_NAME, "w", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerows(rows)
+
+
+init_db()
+
+add_record(1, "Alice", 30)
+add_record(2, "Bob", 25)
+
+print("All records:")
+view_records()
+
+print("Search record:")
+search_record(1)
+
+print("Delete record:")
+delete_record(1)
+
+print("After delete:")
+view_records()
