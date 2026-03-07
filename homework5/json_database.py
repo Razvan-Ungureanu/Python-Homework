@@ -7,7 +7,15 @@ FILE_NAME = "database.json"
 def init_db():
     if not os.path.exists(FILE_NAME):
         with open(FILE_NAME, "w") as file:
-            json.dump({"records": [], "last_id": 0}, file, indent=4)
+            json.dump({""
+            "schema": {
+                "id": "int", 
+                "name": "str", 
+                "age": "int"
+            },
+            "records": [],
+            "last_id": 0
+            }, file, indent=4)
 
 
 def load_db():
@@ -19,6 +27,14 @@ def save_db(data):
     with open(FILE_NAME, "w") as file:
         json.dump(data, file, indent=4)
 
+def validate_record(record, schema):
+    for field, field_type in schema.items():
+        if field not in record:
+            raise ValueError(f"Missing field: {field}")
+        if field_type == "int" and not isinstance(record[field], int):
+            raise TypeError(f"{field} must be int")
+        if field_type == "str" and not isinstance(record[field], str):
+            raise TypeError(f"{field} must be str")
 
 def add_record(name, age):
     data = load_db()
@@ -30,6 +46,8 @@ def add_record(name, age):
         "name": name,
         "age": age
     }
+
+    validate_record(record, data["schema"])
 
     data["records"].append(record)
     data["last_id"] = new_id
