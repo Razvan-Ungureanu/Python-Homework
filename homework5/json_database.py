@@ -89,11 +89,13 @@ def update_record(record_id, name=None, age=None):
     for record in data["records"]:
         if record["id"] == record_id:
 
-            if name:
+            if name is not None:
                 record["name"] = name
 
-            if age:
+            if age is not None:
                 record["age"] = age
+
+            validate_record(record, data["schema"])
 
     save_db(data)
 
